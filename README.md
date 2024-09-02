@@ -18,13 +18,13 @@ Python must be installed on the ssh target, otherwise only "raw" and "script" mo
 Target hosts are configured in the hosts file (name can be configured).
 For each host additional attributes can be configured e.g.
 
-    157.230.29.95 ansible_ssh_private_key_file=~/.ssh/id_rsa ansible_user=root
+    <ip-address> ansible_ssh_private_key_file=~/.ssh/id_rsa ansible_user=root
 
 If values are repeated over multiple hosts they can even be set once and reused.
 
     [droplet]
-    157.230.29.95
-    157.230.29.113
+    <ip-address>
+    <ip-address>
 
     [droplet:vars]
     ansible_ssh_private_key_file=~/.ssh/id_rsa
@@ -61,11 +61,11 @@ List all known hosts for which the key was already accepted.
 
 For "long-time" servers, servers that are kept for a long time
 
-    ssh-keyscan -H 161.35.81.154 >> ~/.ssh/known_hosts
+    ssh-keyscan -H <ip-address> >> ~/.ssh/known_hosts
 
 Take public key of default location ~./ssh/id_rsa.pub and copy to remote host
 
-    ssh-copy-id root@178.128.241.118
+    ssh-copy-id root@<ip-address>
 
 disable host key checking on various locations, for example with a ansible.cfg file in the project directory
 
