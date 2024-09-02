@@ -1,0 +1,4 @@
+# role variables that should not easily be changed, but can be overwritten, higher priority then defaults
+docker_registry: https://index.docker.io/v1/
+docker_username: mueller
+docker_password: xxxxx

@@ -1,54 +1,49 @@
 ---
 - name: Install node and npm
-  # replace with your host IP address
-  hosts: X.X.X.X
+  hosts: appserver
   tasks:
     - name: Update apt repo and cache
+      # only run once an hour
       apt: update_cache=yes force_apt_get=yes cache_valid_time=3600
     - name: Install nodejs and npm
+      # apt works on digitalocean droplet, but not on ec2 for example, there yum must be used
       apt:
         pkg:
           - nodejs
           - npm
 
-
 - name: Create new linux user for node app
-  # replace with your host IP address
-  hosts: X.X.X.X
+  hosts: appserver
   tasks:
     - name: Create linux user
       user:
-      # replace with your username
-        name: Username
+        name: mueller
         comment: Node User
         group: admin
 
 
 - name: Deploy nodejs app
-  # replace with your host IP address
-  hosts: X.X.X.X
+  hosts: appserver
+  # execute this tasks as user mueller
   become: True
-  # replace with your username
-  become_user: Username
+  become_user: mueller
   tasks:
     - name: Unpack the nodejs file
       unarchive:
-        # replace with your folder location
-        src: path_to_folder/nodejs-app-1.0.0.tgz
-        # replace with your folder location
-        dest: home/username
+        src: /home/mueller/IdeaProjects/nodejs-app-1.0.0.tgz
+        dest: /home/mueller
     - name: Install dependencies
       npm:
-        # replace with your folder location
-        path: home/username/package
+        path: /home/mueller/package
     - name: Start the application
       command:
-        # replace with your folder location
-        chdir: home/username/package/app
+        chdir: /home/mueller/package/app
         cmd: node server
+      # executes async so the application keeps running after ansible finishes
       async: 1000
       poll: 0
     - name: Ensure app is running
       shell: ps aux | grep node
       register: app_status
+    # debug module can be used to output a response to the cmdline
     - debug: msg={{app_status.stdout_lines}}

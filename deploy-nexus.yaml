@@ -35,6 +35,7 @@
       register: find_result
     - name: Rename nexus folder
       shell: mv {{find_result.files[0].path}} /opt/nexus
+      # shell is not idempotent, therefore we need an extra check
       when: not stat_result.stat.exists
 
 - name: Create nexus user to own nexus folder
@@ -69,6 +70,14 @@
   become_user: nexus
   tasks:
     - name: Set run_as_user nexus
+      # create a whole "ansible block" in the file and set this value
+      # the default line is kept
+      #blockinfile:
+      #  path: /opt/nexus/bin/nexus.rc
+      #  block: |
+      #    rune_as_user="nexus"
+      
+      # replace exactly one line (found by regexp) in a file
       lineinfile: 
         path: /opt/nexus/bin/nexus.rc
         regexp: '^#run_as_user=""'
@@ -83,6 +92,7 @@
       shell: ps aux | grep nexus
       register: app_status
     - debug: msg={{app_status.stdout_lines}}
+    # it takes some time until nexus is running, therefore we need to wait so the following task is not failing
     - name: Wait one minute
       pause:
         minutes: 1 

@@ -1,6 +1,6 @@
 version: 1.0.0 
-location: /Users/nana/ansible/nodejs-app 
-linux_name: nana
+location: /home/mueller/ansible/nodejs-app 
+linux_name: mueller
 user_home_dir: /home/{{linux_name}}
 
 docker_password: 

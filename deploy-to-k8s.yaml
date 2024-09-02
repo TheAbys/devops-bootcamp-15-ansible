@@ -1,5 +1,6 @@
 ---
 - name: Deploy app in new namespace
+  # must be localhost, as we connect to the cluster from localhost
   hosts: localhost
   tasks:
     - name: Create a k8s namespace
@@ -8,8 +9,14 @@
         api_version: v1
         kind: Namespace
         state: present
+        # instead of setting it here, set K8S_AUTH_KUBECONFIG environment variable
+        # kubeconfig: /home/mueller/kubeconfig_myapp-eks-cluster
     - name: Deploy nginx app 
       kubernetes.core.k8s:
-        src: ~/demo-projects/K8s-Files/nginx-config.yaml
+        src: nginx-config.yaml
         state: present
+        # state = absent with the same file would remove the resources
+        # state: present
         namespace: my-app
+        # instead of setting it here, set K8S_AUTH_KUBECONFIG environment variable
+        # kubeconfig: /home/mueller/kubeconfig_myapp-eks-cluster

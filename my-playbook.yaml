@@ -1,0 +1,44 @@
+---
+- name: Create nginx web server
+  hosts: webserver
+  tasks: 
+    - name: install nginx server
+      remote_user: ec2-user
+      become: true
+      become_user: root
+      yum:
+        name: nginx
+        state: latest
+      #yum:
+      #  name: nginx=1.24.0-1ubuntu1
+      #  state: present
+      
+    - name: start nginx server
+      remote_user: ec2-user
+      become: true
+      become_user: root
+      service:
+        name: nginx
+        state: started
+---
+- name: Configure nginx web server
+  hosts: webserver
+  tasks: 
+    - name: uninstall nginx server
+      remote_user: ec2-user
+      become: true
+      become_user: root
+      yum:
+        name: nginx
+        state: absent
+      #yum:
+      #  name: nginx=1.24.0-1ubuntu1
+      #  state: present
+      
+    - name: stop nginx server
+      remote_user: ec2-user
+      become: true
+      become_user: root
+      service:
+        name: nginx
+        state: stopped

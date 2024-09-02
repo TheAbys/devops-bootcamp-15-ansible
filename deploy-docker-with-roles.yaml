@@ -23,7 +23,7 @@
 - name: Install Docker-compose
   hosts: all
   become: yes
-  become_user: nana
+  become_user: mueller
   tasks:
     - name: Create docker-compose directory
       file:
@@ -41,7 +41,7 @@
 - name: Start docker containers
   hosts: all
   become: yes
-  become_user: nana
+  become_user: mueller
   vars_files:
     - project-vars
   roles:

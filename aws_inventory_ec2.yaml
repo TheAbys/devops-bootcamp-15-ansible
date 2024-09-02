@@ -1,6 +1,16 @@
 ---
+# aws inventory plugin configuration
 plugin: aws_ec2
 regions: 
   - eu-central-1
+keyed_group:
+  # generates groups which can be used as host in the ansible script
+  # tag_Name_dev_server for example
+  - key: tags
+    prefix: "tag"
+  # create groups by instance_type
+  - key: instance_type
+    prefix: instance_type
 filters:
+  # look for systems where the Name tag starts with "dev"
   tag:Name: dev*

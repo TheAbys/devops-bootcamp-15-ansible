@@ -1,1 +1,8 @@
-X.X.X.X ansible_ssh_private_key_file=~/.ssh/id_rsa ansible_user=root
+[webserver]
+18.196.164.14
+52.59.213.93
+
+[webserver:vars]
+ansible_ssh_private_key_file=~/.ssh/id_rsa
+ansible_user=ec2-user
+ansible_python_interpreter=/usr/bin/python3.9

@@ -1,0 +1,4 @@
+# defaults for role when no variables are set, has a low priority and are easy to override
+docker_registry: https://aws_account_id.dkr.ecr.region.amazonaws.com
+docker_username: AWS
+docker_password: xxxxx

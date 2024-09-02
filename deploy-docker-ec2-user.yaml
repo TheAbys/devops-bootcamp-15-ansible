@@ -38,6 +38,7 @@
         name: ec2-user
         groups: docker
         append: yes
+    # in case of creating a new group a reconnect is necessary for it wo be available
     - name: Reconnect to server session
       meta: reset_connection
 
@@ -48,11 +49,11 @@
   tasks:
     - name: Copy docker compose 
       copy:
-        src: /Users/nana/bootcamp-java-mysql-project/docker-compose-full.yaml
+        src: /home/mueller/IdeaProject/devops-bootcamp-15-ansible/docker-compose-full.yaml
         dest: /home/ec2-user/docker-compose.yaml
-      docker_login:
-        username: nanatwn
     - name: Docker login
+      docker_login:
+        username: mueller
         password: "{{docker_password}}"
     - name: Start containers from compose
       community.docker.docker_compose_v2:
